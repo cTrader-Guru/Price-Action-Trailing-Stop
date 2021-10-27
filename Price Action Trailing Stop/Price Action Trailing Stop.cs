@@ -77,7 +77,7 @@ namespace cAlgo.Robots
 
         public const string VERSION = "1.0.0";
 
-        public const string PAGE = "https://ctrader.guru/product/price-action-trailing-stop/";
+        public const string PAGE = "https://ctrader.guru/shop/tools/price-action-trailing-stop/";
 
         #endregion
 
