@@ -60,7 +60,7 @@ namespace cAlgo.Robots
 
         public const string NAME = "Price Action Trailing Stop";
 
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.1";
 
         public const string PAGE = "https://www.google.com/search?q=ctrader+guru+price+action+trailing+stop";
 
@@ -73,6 +73,9 @@ namespace cAlgo.Robots
 
         [Parameter("Mode", Group = "Trailing", DefaultValue = TrailingMode.HighLow)]
         public TrailingMode TMode { get; set; }
+
+        [Parameter("Activation (pips)", Group = "Trailing", DefaultValue = 15, MinValue = 1, Step = 1)]
+        public double Activation { get; set; }
 
         [Parameter("Period", Group = "Trailing", DefaultValue = 1, MinValue = 1, Step = 1)]
         public int TPeriod { get; set; }
@@ -99,6 +102,8 @@ namespace cAlgo.Robots
 
             foreach (Position position in Positions)
             {
+
+                if (position.Pips < Activation) continue;
 
                 double stoploss = position.DataSeries(MarketData.GetBars(TimeFrame, SymbolName), TMode == TrailingMode.HighLow).Last(TPeriod);
 
