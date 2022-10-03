@@ -60,7 +60,7 @@ namespace cAlgo.Robots
 
         public const string NAME = "Price Action Trailing Stop";
 
-        public const string VERSION = "1.0.1";
+        public const string VERSION = "1.0.2";
 
         public const string PAGE = "https://www.google.com/search?q=ctrader+guru+price+action+trailing+stop";
 
@@ -105,7 +105,9 @@ namespace cAlgo.Robots
 
                 if (position.Pips < Activation) continue;
 
-                double stoploss = position.DataSeries(MarketData.GetBars(TimeFrame, SymbolName), TMode == TrailingMode.HighLow).Last(TPeriod);
+                DataSeries myds = position.DataSeries(MarketData.GetBars(TimeFrame, SymbolName), TMode == TrailingMode.HighLow);
+                double stoploss = (position.TradeType == TradeType.Sell) ? myds.Maximum(TPeriod) : myds.Minimum(TPeriod);
+
 
                 if (position.ItIsConsistent(Symbol, stoploss) && !position.ModifyStopLossPrice(stoploss).IsSuccessful)
                     Print("Can't edit position #", position.Id, ", with stoploss ", stoploss);
